@@ -13,7 +13,7 @@ Based on `thoughtbot/laptop` and `dannysmith/laptop-danny`.
 xcode-select --install
 
  # Run a software update
-sudo softwareupdate -iva
+sudo softwareupdate --install --all
 
  # Clone this repo and run the setup
 git clone http://github.com/will-rowe/mac-setup ~/Desktop
