@@ -1,6 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 dotfiles_repo="http://github.com/will-rowe/dotfiles"
+github_repos=("https://github.com/will-rowe/mac-setup" \
+     "http://github.com/will-rowe/dotfiles" \
+     "https://github.com/will-rowe/rnaseq" \
+     "https://github.com/will-rowe/gopherSeq" \
+     "https://github.com/will-rowe/aligner-test" \
+     "https://github.com/will-rowe/will-rowe.github.io" \
+)
 
 fancy_echo() {
   local fmt="$1"; shift
@@ -55,13 +62,23 @@ echo "Running install scripts..."
 # Run homebrew Script to install software and dependencies
 source brew.sh
 
-# Install Dotfiles
-source dotfiles.sh
-
 # Install Go 1.8.3
 wget https://storage.googleapis.com/golang/go1.8.3.darwin-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.8.3.darwin-amd64.tar.gz
 rm go1.8.3.darwin-amd64.tar.gz
+
+# Install Dotfiles
+source dotfiles.sh
+source $HOME/.bash_profile
+
+# Setup code directory
+code_dir=$HOME/Documents/Code
+mkdir -p $code_dir $code_dir/go-workspace $code_dir/git-repos
+cd $code_dir/git-repos
+for repo in "${github_repos[@]}"; do
+  git clone $repo
+done
+cd $LAPTOP_INSTALL_DIR
 
 # Set macOS preferences
 source osx-appstore.sh
@@ -69,6 +86,8 @@ source osx-prefs.sh
 
 echo "-------------------------------------"
 green_echo "Done provisioning Mac!"
+green_echo "You will need to restart for some changes to take effect."
+green_echo "Applications requiring sign-in will now open."
 echo
 
 # Open Mail to setup accounts

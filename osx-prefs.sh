@@ -138,7 +138,7 @@ defaults write com.apple.dock minimize-to-application -bool true
 #defaults write com.apple.dock persistent-apps -array
 
 # Show only open applications in the Dock
-#defaults write com.apple.dock static-only -bool true
+defaults write com.apple.dock static-only -bool true
 
 # Group windows by application in Mission Control
 defaults write com.apple.dock expose-group-by-app -bool true
@@ -241,16 +241,6 @@ defaults write com.apple.menuextra.clock DateFormat "EEE MMM d  H:mm"
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 ###############################################################################
-# Kill affected applications                                                  #
-###############################################################################
-
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-    "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" \
-    "Terminal" "Tweetbot" "iCal"; do
-    killall "${app}" &> /dev/null
-done
-
-###############################################################################
 # Profile Picture                                                             #
 ###############################################################################
 
@@ -263,10 +253,19 @@ curl -s $URL > $HOME/Pictures/avatar.jpg
 fancy_echo "Setting Profile Image..."
 echo "0x0A 0x5C 0x3A 0x2C dsRecTypeStandard:Users 4 dsAttrTypeStandard:RecordName externalbinary:dsAttrTypeStandard:JPEGPhoto dsAttrTypeStandard:UniqueID dsAttrTypeStandard:PrimaryGroupID dsAttrTypeStandard:GeneratedUID" > $HOME/avatar_import.txt
 echo $USER:$HOME/Pictures/avatar.jpg:$UID:$(id -g):$(dscl . -read /Users/$USER GeneratedUID | cut -d' ' -f2) >> $HOME/avatar_import.txt
-echo $passwd | sudo -S -k dscl . -delete /Users/$USER JPEGPhoto
-echo $passwd | sudo -S -k dsimport $HOME/avatar_import.txt /Local/Default M -u diradmin
+sudo dscl . -delete /Users/$USER JPEGPhoto
+sudo dsimport $HOME/avatar_import.txt /Local/Default M -u diradmin
 rm -f $HOME/avatar_import.txt
 
 green_echo "done."
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+###############################################################################
+# Kill affected applications                                                  #
+###############################################################################
+for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
+    "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" \
+    "Tweetbot" "iCal"; do
+    killall "${app}" &> /dev/null
+done

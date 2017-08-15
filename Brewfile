@@ -31,6 +31,7 @@ brew "vim"
 brew "rcm" ## management suite for dotfiles
 brew "the_silver_searcher" ## code searching (similar to grep)
 brew "curl"
+brew "wget"
 brew 'pigz' ## parallel gzip compression
 brew 'grep'
 brew 'tree'

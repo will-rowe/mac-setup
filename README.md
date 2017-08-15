@@ -25,15 +25,14 @@ chmod +x ./INSTALL.sh
 
 ## Manual Steps
 
-- Install GoogleDrive, Conda, Jekyll
-- Start syncs with Dropbox etc.
+- Install Google Backup and Sync (GoogleDrive), Conda, Jekyll
+- Start syncs with Google, Dropbox etc.
 - Setup exchange mail accounts
 
 
 ## To Do
 
-Setup workspace directories
-Pull Git repos
+Automate workspace setup
 Install bioinformatics software
 
 

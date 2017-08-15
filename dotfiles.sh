@@ -5,7 +5,8 @@ git clone $dotfiles_repo $HOME/.dotfiles
 green_echo "done."
 
 echo "Symlinking with thoughtbot/rcup..."
-cd $HOME && rcup -v
+cd $HOME
+rcup -v
 
 green_echo "done."
 
